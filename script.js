@@ -14,6 +14,8 @@ let todos = [
   { value: "Pick up groceries", checked: false },
   { value: "Complete todo app on FrontendMentor", checked: false },
 ];
+
+let todo
 window.addEventListener("load", () => {
   todos.forEach((t) => {
     newTodo(t.value, t.checked);
@@ -77,10 +79,26 @@ function countComplted() {
   } items left`;
 }
 
+
+
+// Check for a saved theme state in localStorage on page load
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  document.body.classList.add(savedTheme);
+}
+
 function changeTheme() {
-  document.body.classList.toggle("light");
+  const body = document.body;
+  body.classList.toggle("light");
+
+  // Save the current theme state to localStorage
+  const theme = body.classList.contains("light") ? "light" : "dark";
+  localStorage.setItem("theme", theme);
+
   console.log(todos);
 }
+
+
 
 function clearCompleted() {
   todos = todos.filter((t) => t.checked !== true);

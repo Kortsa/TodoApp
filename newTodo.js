@@ -46,7 +46,9 @@ function newTodo(value, completed = false) {
       
   todoCross.addEventListener("click", function (e) {
     e.target.parentElement.remove();
+    //remove the todo from the localStorage
     todos = todos.filter((t) => t.value !== value);
+    localStorage.setItem("todos", JSON.stringify(todos)); //new code
     countComplted();
     if (todos.length === 0) {
       updateUi(true);
@@ -66,6 +68,13 @@ function newTodo(value, completed = false) {
   todo.appendChild(todoText);
   todo.appendChild(todoCross);
 
+  //add the new todo to the array of todos and store it in localStorage
+
+  const newTodo = {value, completed};
+  todos.push(newTodo);
+  localStorage.setItem("todos", JSON.stringify(todos));
+  
+
   todosContainer.appendChild(todo);
 }
 
@@ -79,48 +88,3 @@ function isBefore(elem1, el2) {
   return false;
 }
 
-
-
-// pure js dragging for pointer devices
-//todo.draggable = true;
-// todo.addEventListener("dragstart", (e) => {
-//   e.dataTransfer.effectAllowed = "move";
-//   elem = e.target;
-// });
-
-// todo.addEventListener("dragover", (e) => {
-//   let el1;
-//   e.preventDefault();
-//   if (e.target.classList.contains("todo")) {
-//     el1 = e.target;
-//   } else {
-//     el1 = e.target.parentElement;
-//   }
-
-//   if (isBefore(elem, el1)) {
-//     el1.parentNode.insertBefore(elem, el1);
-//   } else {
-//     el1.parentNode.insertBefore(elem, el1.nextSibling);
-//   }
-// });
-
-// todo.addEventListener("dragend", () => {
-//   elem = null;
-
-//   let index = todos.findIndex((t) => t.value === value);
-//   todos.splice(index, 1);
-
-//   if (todo.nextSibling) {
-//     let index1 = todos.findIndex(
-//       (t) => t.value === todo.nextSibling.querySelector("p").textContent
-//     );
-//     todos.splice(index1, 0, {
-//       value: value,
-//       checked: todo.querySelector("input").checked,
-//     });
-//   } else {
-//     todos.push({
-//       value: value,
-//       checked: todo.querySelector("input").checked,
-//     });
-//   }
